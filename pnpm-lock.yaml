@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@lucide/astro':
-        specifier: ^0.575.0
-        version: 0.575.0(astro@5.18.0(rollup@4.59.0)(typescript@5.9.3))
       astro:
         specifier: ^5.17.1
         version: 5.18.0(rollup@4.59.0)(typescript@5.9.3)
