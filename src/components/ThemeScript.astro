@@ -1,0 +1,25 @@
+<script>
+	(function () {
+		const html = document.documentElement;
+		const themeToggle = document.getElementById('theme-toggle');
+
+		function setTheme(theme, persist) {
+			html.setAttribute('data-theme', theme);
+			if (persist !== false) localStorage.setItem('theme', theme);
+		}
+
+		themeToggle?.addEventListener('click', function () {
+			const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+			setTheme(next, true);
+		});
+
+		const media = window.matchMedia('(prefers-color-scheme: dark)');
+		if (media.addEventListener) {
+			media.addEventListener('change', function (e) {
+				if (localStorage.getItem('theme') == null) {
+					setTheme(e.matches ? 'dark' : 'light', false);
+				}
+			});
+		}
+	})();
+</script>

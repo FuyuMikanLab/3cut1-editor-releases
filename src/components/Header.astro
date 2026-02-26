@@ -1,0 +1,117 @@
+---
+interface Props {
+	title?: string;
+	orgName?: string;
+	orgUrl?: string;
+}
+
+const { title = '3Cut1 Editor', orgName = 'FuyuMikanLab', orgUrl = '/' } = Astro.props;
+---
+
+<header class="header">
+	<a class="header__org" href={orgUrl} aria-label={orgName}>
+		{orgName}
+	</a>
+	<div class="page__title">{title}</div>
+	<button type="button" class="theme-toggle" id="theme-toggle" aria-label="切换白天/黑夜模式">
+		<span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
+			<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+		</span>
+		<span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+			<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+		</span>
+	</button>
+</header>
+
+<style>
+	.header {
+		position: relative;
+		flex-shrink: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 1.25rem clamp(1.5rem, 5vw, 3rem);
+		min-height: 4rem;
+		border-bottom: 1px solid var(--rams-border);
+	}
+
+	.header__org {
+		position: absolute;
+		left: clamp(1.5rem, 5vw, 3rem);
+		top: 50%;
+		transform: translateY(-50%);
+		font-size: 0.9375rem;
+		font-weight: 600;
+		letter-spacing: var(--rams-letter-spacing-body);
+		color: var(--rams-text-muted);
+		text-decoration: none;
+		transition: color var(--rams-duration-fast) var(--rams-ease-out);
+	}
+	.header__org:hover {
+		color: var(--rams-accent);
+	}
+
+	.page__title {
+		margin: 0;
+		font-size: clamp(1.25rem, 3vw, 1.625rem);
+		font-weight: 600;
+		line-height: var(--rams-line-height-tight);
+		letter-spacing: var(--rams-letter-spacing-heading);
+		color: var(--rams-text-strong);
+		text-align: center;
+		animation: fadeInUp var(--rams-duration-slow) var(--rams-ease-out) both;
+	}
+
+	.theme-toggle {
+		position: absolute;
+		right: clamp(1.5rem, 5vw, 3rem);
+		top: 50%;
+		transform: translateY(-50%);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		padding: 0;
+		border: 1px solid var(--rams-border);
+		border-radius: var(--rams-radius);
+		background: var(--rams-bg-elevated);
+		color: var(--rams-text);
+		cursor: pointer;
+		box-shadow: var(--rams-shadow);
+		transition: border-color var(--rams-duration-normal) var(--rams-ease-out),
+			background var(--rams-duration-normal) var(--rams-ease-out),
+			transform var(--rams-duration-fast) var(--rams-ease-out);
+	}
+	.theme-toggle:hover {
+		border-color: var(--rams-accent);
+		background: rgba(242, 174, 193, 0.2);
+		transform: translateY(-50%) scale(1.05);
+	}
+	.theme-toggle:active {
+		transform: translateY(-50%) scale(0.98);
+	}
+	.theme-toggle :global(svg) {
+		display: block;
+	}
+	.theme-toggle__icon--moon {
+		display: none;
+	}
+	:global([data-theme="dark"]) .theme-toggle__icon--sun {
+		display: none;
+	}
+	:global([data-theme="dark"]) .theme-toggle__icon--moon {
+		display: block;
+	}
+
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+</style>

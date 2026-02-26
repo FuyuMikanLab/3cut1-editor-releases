@@ -1,0 +1,108 @@
+/**
+ * 全局样式：设计令牌 + 基底
+ * 使用 @layer 控制层叠顺序，便于后续覆盖
+ */
+@layer tokens, base;
+
+/* ---------- 设计令牌（Rams） ---------- */
+@layer tokens {
+	:root {
+		font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+		color: var(--rams-text);
+		background-color: var(--rams-bg);
+
+		/* 基底：柔和灰粉背景，减少眩光与视觉疲劳 */
+		--rams-bg: #F8F4F5;
+		--rams-bg-elevated: #fefbfc;
+		--rams-border: #ecdde2;
+		--rams-border-strong: #e0ced5;
+
+		/* 文字：适中对比度，易读且不刺眼（避免纯黑大面积使用） */
+		--rams-text: #3d3d3d;
+		--rams-text-strong: #1a1a1a;
+		--rams-text-muted: #736C73;
+
+		/* 排版：行高与字距，提升长文易读性 */
+		--rams-line-height-base: 1.6;
+		--rams-line-height-tight: 1.45;
+		--rams-line-height-relaxed: 1.75;
+		--rams-letter-spacing-body: 0.01em;
+		--rams-letter-spacing-heading: -0.02em;
+
+		/* 功能色：灰粉色系，低饱和度，视觉友好 */
+		--rams-accent: #F2AEC1;
+		--rams-accent-hover: #e09aad;
+		--rams-accent-soft: #8CC86980;
+		/* --rams-accent-soft: rgba(242, 174, 193, 0.5); */
+		--rams-warn: #736C73;
+		--rams-warn-soft: rgba(115, 108, 115, 0.12);
+		--rams-danger: #a86b7a;
+		--rams-danger-soft: rgba(168, 107, 122, 0.12);
+		--rams-success: #7a8b82;
+		--rams-success-soft: rgba(122, 139, 130, 0.12);
+
+		/* 几何：小圆角，保持克制 */
+		--rams-radius: 6px;
+		--rams-radius-sm: 4px;
+		--rams-radius-lg: 8px;
+
+		/* 阴影：极轻，仅用于必要层级 */
+		--rams-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+		--rams-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+		/* 动画：克制、短时、缓出 */
+		--rams-ease-out: cubic-bezier(0.25, 0.1, 0.25, 1);
+		--rams-duration-fast: 0.2s;
+		--rams-duration-normal: 0.35s;
+		--rams-duration-slow: 0.5s;
+	}
+
+	/* 深色模式 */
+	[data-theme="dark"] {
+		--rams-bg: #1a1a1b;
+		--rams-bg-elevated: #242426;
+		--rams-border: #3d3d3f;
+		--rams-border-strong: #525254;
+
+		--rams-text: #e0e0e0;
+		--rams-text-strong: #f5f5f5;
+		--rams-text-muted: #a0a0a2;
+
+		--rams-accent: #e09aad;
+		--rams-accent-hover: #f2aec1;
+		--rams-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+		--rams-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.25);
+	}
+}
+
+/* ---------- 基底（html/body） ---------- */
+@layer base {
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		min-height: 100%;
+		transition: background-color 0.4s cubic-bezier(0.25, 0.1, 0.25, 1),
+			color 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+	}
+
+	::selection {
+		background: var(--rams-accent-soft);
+		color: var(--rams-text-strong);
+	}
+	::-moz-selection {
+		background: var(--rams-accent-soft);
+		color: var(--rams-text-strong);
+	}
+
+	/* 尊重用户「减少动画」偏好 */
+	@media (prefers-reduced-motion: reduce) {
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+		}
+	}
+}
