@@ -1,0 +1,201 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import FriendLinksModal from "../components/FriendLinksModal.astro";
+import LandingActions from "../components/LandingActions.astro";
+
+const screenshotSrc = "";
+const placeholderSvg = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" fill="none"><rect width="400" height="260" rx="6" fill="%23e8e6e4"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23736C73" font-family="Inter, Noto Sans SC, sans-serif" font-size="14">截图占位</text></svg>')}`;
+
+const links = {
+  download: "https://github.com/FuyuMikanLab/3cut1-editor-releases/releases",
+  docs: "#docs",
+  github: "https://github.com/FuyuMikanLab/3cut1-editor-releases",
+};
+
+const actionItems = [
+  {
+    href: links.download,
+    label: "下载",
+    primary: true,
+    icon: "download" as const,
+  },
+  {
+    href: links.github,
+    label: "GitHub",
+    external: true,
+    icon: "github" as const,
+  },
+  // { type: 'button' as const, label: '友情链接', id: 'friend-links-btn' },
+];
+
+const friendLinks = [
+  { name: "示例站点 A", url: "https://example.com" },
+  { name: "示例站点 B", url: "https://example.com" },
+];
+---
+
+<Layout>
+  <div class="page">
+    <Header title="3Cut1 Editor" orgName="FuyuMikanLab" orgUrl="/" />
+
+    <main class="landing">
+      <div class="landing__inner">
+        <section class="landing__copy">
+          <p class="landing__subtitle">简洁、高效的剪辑体验，让创作更专注。</p>
+          <p class="landing__subtitle">施工中，暂未发布，敬请期待。</p>
+          <LandingActions items={actionItems} />
+        </section>
+        <aside class="landing__screenshot-wrap">
+          {
+            screenshotSrc ? (
+              <img
+                class="landing__screenshot"
+                src={screenshotSrc}
+                alt="产品截图"
+                width="800"
+                height="500"
+              />
+            ) : (
+              <img
+                class="landing__screenshot landing__screenshot--placeholder"
+                src={placeholderSvg}
+                alt=""
+                width="800"
+                height="500"
+              />
+            )
+          }
+        </aside>
+      </div>
+    </main>
+
+    <Footer text="© FuyuMikanLab" />
+  </div>
+
+  <FriendLinksModal title="友情链接" links={friendLinks} />
+</Layout>
+
+<style>
+  .page {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .landing {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(2rem, 8vw, 4rem) clamp(2rem, 6vw, 4rem);
+    box-sizing: border-box;
+    min-height: 0;
+  }
+
+  .landing__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(3rem, 8vw, 5rem);
+    align-items: center;
+    max-width: 1200px;
+    width: 100%;
+  }
+
+  .landing__copy {
+    min-width: 0;
+    padding: clamp(1rem, 3vw, 1.5rem) 0;
+	gap: 1rem;
+	display: flex;
+	flex-direction: column;
+  }
+
+  .landing__subtitle {
+    margin: 0;
+    font-size: clamp(1.0625rem, 2vw, 1.25rem);
+    line-height: var(--rams-line-height-relaxed);
+    letter-spacing: var(--rams-letter-spacing-body);
+    color: var(--rams-text-muted);
+    max-width: 32ch;
+    animation: fadeInUp var(--rams-duration-slow) var(--rams-ease-out) 0.06s
+      both;
+  }
+
+  .landing__screenshot-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    background: var(--rams-bg-elevated);
+    border: 1px solid var(--rams-border);
+    border-radius: var(--rams-radius-lg);
+    box-shadow:
+      var(--rams-shadow-md),
+      0 0 0 1px rgba(242, 174, 193, 0.2);
+    padding: clamp(0.75rem, 2vw, 1.25rem);
+    animation: fadeInUp var(--rams-duration-slow) var(--rams-ease-out) 0.1s both;
+  }
+
+  .landing__screenshot {
+    width: 100%;
+    height: auto;
+    max-height: min(62vh, 520px);
+    object-fit: contain;
+    border-radius: var(--rams-radius);
+  }
+
+  .landing__screenshot--placeholder {
+    background: var(--rams-border);
+    min-height: 320px;
+  }
+
+  @media (max-width: 720px) {
+    .landing {
+      padding: clamp(1.5rem, 5vw, 2.5rem) 1.5rem;
+    }
+
+    .landing__inner {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr;
+      gap: 2rem;
+    }
+
+    .landing__copy {
+      order: 1;
+      text-align: center;
+      padding: 0.5rem 0;
+    }
+
+    .landing__subtitle {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .landing__screenshot-wrap {
+      order: 2;
+      max-height: 48vh;
+      padding: 1rem;
+    }
+
+    .landing__screenshot {
+      max-height: 46vh;
+    }
+
+    .landing__screenshot--placeholder {
+      min-height: 280px;
+    }
+  }
+</style>

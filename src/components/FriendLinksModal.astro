@@ -1,0 +1,172 @@
+---
+interface Props {
+	title?: string;
+	links?: { name: string; url: string }[];
+}
+
+const { title = '友情链接', links = [] } = Astro.props;
+---
+
+<div class="modal" id="friend-links-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="friend-links-title">
+	<div class="modal__backdrop" id="modal-backdrop"></div>
+	<div class="modal__box">
+		<div class="modal__head">
+			<h2 class="modal__title" id="friend-links-title">{title}</h2>
+			<button type="button" class="modal__close" id="modal-close" aria-label="关闭">
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+			</button>
+		</div>
+		<ul class="modal__list">
+			{links.map((item) => (
+				<li>
+					<a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a>
+				</li>
+			))}
+		</ul>
+	</div>
+</div>
+
+<script>
+	(function () {
+		const modal = document.getElementById('friend-links-modal');
+		const openBtn = document.getElementById('friend-links-btn');
+		const closeBtn = document.getElementById('modal-close');
+		const backdrop = document.getElementById('modal-backdrop');
+
+		function openModal() {
+			if (modal) {
+				modal.setAttribute('aria-hidden', 'false');
+				modal.classList.add('modal--open');
+				document.body.style.overflow = 'hidden';
+			}
+		}
+		function closeModal() {
+			if (modal) {
+				modal.setAttribute('aria-hidden', 'true');
+				modal.classList.remove('modal--open');
+				document.body.style.overflow = '';
+			}
+		}
+
+		openBtn?.addEventListener('click', openModal);
+		closeBtn?.addEventListener('click', closeModal);
+		backdrop?.addEventListener('click', closeModal);
+		modal?.addEventListener('keydown', function (e) {
+			if (e.key === 'Escape') closeModal();
+		});
+	})();
+</script>
+
+<style>
+	.modal {
+		position: fixed;
+		inset: 0;
+		z-index: 100;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1rem;
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity var(--rams-duration-normal) var(--rams-ease-out),
+			visibility var(--rams-duration-normal);
+	}
+	.modal--open {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	.modal__backdrop {
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.35);
+		cursor: pointer;
+		transition: opacity var(--rams-duration-normal) var(--rams-ease-out);
+	}
+
+	.modal__box {
+		position: relative;
+		width: 100%;
+		max-width: 360px;
+		max-height: 80vh;
+		overflow: auto;
+		background: var(--rams-bg-elevated);
+		border: 1px solid var(--rams-border);
+		border-radius: var(--rams-radius-lg);
+		box-shadow: var(--rams-shadow-md);
+		padding: 1.25rem;
+		transform: scale(0.98);
+		opacity: 0;
+		transition: transform var(--rams-duration-normal) var(--rams-ease-out),
+			opacity var(--rams-duration-normal) var(--rams-ease-out);
+	}
+	.modal--open .modal__box {
+		transform: scale(1);
+		opacity: 1;
+	}
+
+	.modal__head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 1rem;
+		gap: 0.5rem;
+	}
+
+	.modal__title {
+		margin: 0;
+		font-size: 1.125rem;
+		font-weight: 600;
+		color: var(--rams-text-strong);
+	}
+
+	.modal__close {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		padding: 0;
+		border: none;
+		border-radius: var(--rams-radius-sm);
+		background: transparent;
+		color: var(--rams-text-muted);
+		cursor: pointer;
+		transition: background var(--rams-duration-fast) var(--rams-ease-out),
+			color var(--rams-duration-fast) var(--rams-ease-out),
+			transform var(--rams-duration-fast) var(--rams-ease-out);
+	}
+	.modal__close:hover {
+		background: var(--rams-border);
+		color: var(--rams-text);
+		transform: scale(1.08);
+	}
+	.modal__close:active {
+		transform: scale(0.95);
+	}
+	.modal__close svg {
+		display: block;
+	}
+
+	.modal__list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.modal__list li {
+		margin-bottom: 0.5rem;
+	}
+	.modal__list li:last-child {
+		margin-bottom: 0;
+	}
+	.modal__list a {
+		color: var(--rams-text);
+		text-decoration: none;
+		letter-spacing: var(--rams-letter-spacing-body);
+		transition: color var(--rams-duration-fast) var(--rams-ease-out);
+	}
+	.modal__list a:hover {
+		color: var(--rams-accent);
+		text-decoration: underline;
+	}
+</style>
