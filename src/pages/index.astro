@@ -12,6 +12,7 @@ const links = {
   download: "https://github.com/FuyuMikanLab/3cut1-editor-releases/releases",
   docs: "#docs",
   github: "https://github.com/FuyuMikanLab/3cut1-editor-releases",
+  readme: "https://docs.qq.com/doc/DZGtvSUVyR2p5WHJY"
 };
 
 const actionItems = [
@@ -27,7 +28,12 @@ const actionItems = [
     external: true,
     icon: "github" as const,
   },
-  // { type: 'button' as const, label: '友情链接', id: 'friend-links-btn' },
+  {
+    href: links.readme,
+    label: "使用文档",
+    external: true,
+    icon: "book-search" as const,
+  },
 ];
 
 const friendLinks = [
@@ -38,13 +44,13 @@ const friendLinks = [
 
 <Layout>
   <div class="page">
-    <Header title="3Cut1 Editor" orgName="FuyuMikanLab" orgUrl="/" />
+    <Header title="3Cut1 Editor" orgName="FuyuMikanLab" orgUrl="https://github.com/FuyuMikanLab" />
 
     <main class="landing">
       <div class="landing__inner">
         <section class="landing__copy">
           <p class="landing__subtitle">简洁、高效的剪辑体验，让创作更专注。</p>
-          <p class="landing__subtitle">施工中，暂未发布，敬请期待。</p>
+          <p class="landing__subtitle">当前版本：v1.0.0</p>
           <LandingActions items={actionItems} />
         </section>
         <aside class="landing__screenshot-wrap">
